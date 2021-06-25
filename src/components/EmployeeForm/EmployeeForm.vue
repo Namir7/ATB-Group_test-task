@@ -164,7 +164,7 @@ export default {
       const regex =
         /^([А-ЯA-Z]|[А-ЯA-Z][\x27а-яa-z]{1,}|[А-ЯA-Z][\x27а-яa-z]{1,}([А-ЯA-Z][\x27а-яa-z]{1,}|(оглы)|(кызы)))\040[А-ЯA-Z][\x27а-яa-z]{1,}(\040[А-ЯA-Z][\x27а-яa-z]{1,})?$/;
 
-      return regex.test(value.trim());
+      return regex.test(value);
     },
 
     checkIfBirthDateInputValid(value) {
