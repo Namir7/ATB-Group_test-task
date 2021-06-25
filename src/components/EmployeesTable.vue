@@ -1,6 +1,6 @@
 <template>
   <div>
-    <router-link class="add" to="/create" :addEmployee="add">Add</router-link>
+    <router-link class="add" to="/create">Add</router-link>
     <table>
       <tr>
         <th>last name</th>
@@ -10,7 +10,7 @@
         <th>description</th>
         <th>actions</th>
       </tr>
-      <Employee
+      <EmployeeRow
         v-for="employee in employees"
         :key="employee.id"
         :employee="employee"
@@ -20,33 +20,36 @@
 </template>
 
 <script>
-import Employee from "./Employee.vue";
-
-// initial data
-import employees from "../data/employees";
+import EmployeeRow from "./EmployeeRow.vue";
+import { mapState } from "vuex";
 
 export default {
-  name: "Employees",
+  name: "EmployeesTable",
   components: {
-    Employee,
-  },
-  data() {
-    return {
-      employees,
-    };
+    EmployeeRow,
   },
 
+  mounted() {
+    // const hasSavedNewEmployeeData = localStorage.getItem("employees");
+    // if (hasSavedNewEmployeeData) this.saveToLocalStorage();
+  },
+  updated() {
+    // this.retrieveFromLocalStorage();
+  },
+
+  computed: {
+    ...mapState(["employees"]),
+  },
   methods: {
-    add(employee) {
-      this.employees.push(employee);
+    saveToLocalStorage() {
+      // const parsed = JSON.stringify(this.employees);
+      // localStorage.setItem("employees", parsed);
     },
 
-    delete(employeeID) {
-      console.log(employeeID);
-    },
-
-    edit(newEmployeeData) {
-      console.log(newEmployeeData);
+    retrieveFromLocalStorage() {
+      // const stringified = localStorage.getItem("employees");
+      // const employees = JSON.parse(stringified);
+      // this.id = newEmployee.id;
     },
   },
 };

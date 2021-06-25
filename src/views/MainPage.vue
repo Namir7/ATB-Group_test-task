@@ -2,15 +2,15 @@
   <div class="home">
     <h1 class="hidden">Employees management main page</h1>
     <h2>Employees</h2>
-    <Employees />
+    <EmployeesTable />
   </div>
 </template>
 
 <script>
-import Employees from "../components/Employees.vue";
+import EmployeesTable from "../components/EmployeesTable.vue";
 
 export default {
-  components: { Employees },
+  components: { EmployeesTable },
 };
 </script>
 

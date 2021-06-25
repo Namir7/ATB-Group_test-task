@@ -1,24 +1,21 @@
 import { createRouter, createWebHashHistory } from "vue-router";
 
-import Main from "../views/Main.vue";
-import Create from "../views/Create.vue";
-import Edit from "../views/Edit.vue";
+import MainPage from "../views/MainPage.vue";
+import CreatePage from "../views/CreatePage.vue";
+import EditPage from "../views/EditPage.vue";
 
 const routes = [
   {
     path: "/",
-    name: "Main",
-    component: Main,
+    component: MainPage,
   },
   {
     path: "/create",
-    name: "Create",
-    component: Create,
+    component: CreatePage,
   },
   {
-    path: "/edit",
-    name: "Edit",
-    component: Edit,
+    path: "/edit/:id",
+    component: EditPage,
   },
 ];
 

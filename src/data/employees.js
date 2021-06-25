@@ -1,31 +1,28 @@
-import { v4 as uuidv4 } from "uuid";
-import { format } from "date-fns";
-
 export default [
   {
-    id: uuidv4(),
+    id: "b540a14e-e1ed-4f21-abfb-5823afb878f1",
     firstName: "John",
     lastName: "Doe",
     middleName: null,
-    birthDate: format(new Date(1995, 11, 23), "d MMM yyyy"),
+    birthDate: "1999-01-15",
     description: "love donats, racing and America",
   },
 
   {
-    id: uuidv4(),
+    id: "827b96df-c964-4df1-b1a9-9638d4e7d77b",
     firstName: "Ivan",
     lastName: "Ivanov",
     middleName: "Ivanovich",
-    birthDate: format(new Date(1930, 1, 13), "d MMM yyyy"),
+    birthDate: "1936-5-27",
     description: "chess player",
   },
 
   {
-    id: uuidv4(),
+    id: "73cdd085-6f36-442e-89b2-9da0f03dbea5",
     firstName: "Recardo",
     lastName: "Rodrigez",
     middleName: "El mucho Frio",
-    birthDate: format(new Date(1983, 13, 5), "d MMM yyyy"),
+    birthDate: "1986-12-08",
     description: "horse riding, big mustache",
   },
 ];
