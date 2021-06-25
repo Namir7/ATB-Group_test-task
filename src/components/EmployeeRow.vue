@@ -6,8 +6,14 @@
     <td>{{ employee.birthDate }}</td>
     <td>{{ employee.description }}</td>
     <td>
-      <router-link class="edit" :to="`/edit/${employee.id}`">Edit</router-link>
-      <button type="button" @click="clickHandler">Delete</button>
+      <router-link
+        class="no-underline mx-10 font-light"
+        :to="`/edit/${employee.id}`"
+        >Edit</router-link
+      >
+      <button class="font-light mr-5" type="button" @click="clickHandler">
+        Delete
+      </button>
     </td>
   </tr>
 </template>
@@ -29,22 +35,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.edit {
-  display: inline-block;
-
-  width: 25px;
-  height: fit-content;
-
-  margin-left: 25px;
-  margin-right: 25px;
-  padding: 15px;
-  padding-top: 5px;
-  padding-bottom: 5px;
-
-  text-decoration: none;
-  color: black;
-
-  background-color: cadetblue;
-  border-radius: 15%;
+td {
+  @apply font-light text-center py-2;
 }
 </style>

@@ -19,9 +19,9 @@
 </template>
 
 <script>
-import NameInput from "./NameInput.vue";
-import BirthDateInput from "./BirthDateInput.vue";
-import DescriptionInput from "./DescriptionInput.vue";
+import NameInput from "./components/NameInput.vue";
+import BirthDateInput from "./components/BirthDateInput.vue";
+import DescriptionInput from "./components/DescriptionInput.vue";
 
 import { mapGetters, mapActions } from "vuex";
 
@@ -38,8 +38,8 @@ export default {
     const employee = this.getEmployeeByID(id);
 
     this.id = id;
-    this.fullName = `${employee.lastName} ${employee.firstName} ${
-      employee.middleName ? employee.middleName : ""
+    this.fullName = `${employee.lastName} ${employee.firstName}${
+      employee.middleName ? ` ${employee.middleName}` : ""
     }`;
     this.birthDate = employee.birthDate;
     this.description = employee.description;

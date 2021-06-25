@@ -13,7 +13,7 @@ export default [
     firstName: "Ivan",
     lastName: "Ivanov",
     middleName: "Ivanovich",
-    birthDate: "1936-5-27",
+    birthDate: "1936-05-27",
     description: "chess player",
   },
 
@@ -21,7 +21,7 @@ export default [
     id: "73cdd085-6f36-442e-89b2-9da0f03dbea5",
     firstName: "Recardo",
     lastName: "Rodrigez",
-    middleName: "El mucho Frio",
+    middleName: "Frio",
     birthDate: "1986-12-08",
     description: "horse riding, big mustache",
   },
