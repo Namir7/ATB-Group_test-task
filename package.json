@@ -1,6 +1,9 @@
 {
   "name": "atb-group_test-task",
   "version": "0.1.0",
+  "engines": {
+    "node": "14.16.1"
+  },
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -21,7 +24,7 @@
     "vue": "^3.0.0",
     "vue-router": "^4.0.0-0",
     "vuex": "^4.0.2",
-    "vuex-persistedstate": "*"
+    "vuex-persistedstate": "4.0.0-beta.3"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
