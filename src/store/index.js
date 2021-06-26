@@ -42,20 +42,70 @@ const store = {
       commit("add", { employee });
     },
 
-    deleteEmployee({ commit, getters }, { id }) {
+    deleteEmployee({ commit, getters, dispatch }, { id }) {
       const index = getters.getIndexByID(id);
-
-      console.log(index);
+      const deletedEmployee = getters.getEmployeeByID(id);
 
       commit("delete", { index });
+      commit("setDeleted", { deletedEmployee });
+
+      dispatch("clearDeleted");
     },
 
     editEmployee({ commit, getters }, { editedEmployee }) {
       const index = getters.getIndexByID(editedEmployee.id);
-
-      console.log(index);
-
       commit("edit", { editedEmployee, index });
+    },
+  },
+
+  modules: {
+    recover: {
+      state: {
+        deleted: {
+          employee: null,
+        },
+        timers: [],
+      },
+
+      mutations: {
+        setDeleted(state, { deletedEmployee }) {
+          state.deleted.employee = deletedEmployee;
+        },
+
+        stopTimers(state) {
+          for (let timer of state.timers) {
+            clearTimeout(timer);
+          }
+
+          state.timers = [];
+        },
+
+        setTimer(state, { timer }) {
+          state.timers.push(timer);
+        },
+      },
+
+      actions: {
+        restoreEmployee({ state, commit }) {
+          if (state.deleted.employee === null) return;
+
+          const employee = state.deleted.employee;
+          commit("add", { employee });
+
+          commit("setDeleted", { deletedEmployee: null });
+        },
+
+        async clearDeleted({ commit }) {
+          const timeout = 3000;
+
+          commit("stopTimers");
+          const timer = setTimeout(() => {
+            commit("setDeleted", { deletedEmployee: null });
+          }, timeout);
+
+          commit("setTimer", { timer });
+        },
+      },
     },
   },
 

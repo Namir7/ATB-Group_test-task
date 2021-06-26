@@ -1,10 +1,14 @@
 <template>
-  <div class="form-control">
-    <label for="description">Additioanl info:</label>
+  <div class="col-span-2">
     <textarea
       v-model="value"
       id="description"
+      cols="30"
+      rows="8"
+      placeholder="description"
+      tabindex="3"
       :maxlength="descriptionMaxLenght"
+      class="border-solid border-gray-400 border-2 p-3 md:text-xl w-full"
     />
   </div>
 </template>
@@ -26,14 +30,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-input {
-  width: 150px;
-}
-.form-control {
-  display: flex;
-  justify-content: space-between;
-  width: 300px;
-  margin-bottom: 25px;
-}
-</style>
+<style lang="scss" scoped></style>

@@ -1,27 +1,42 @@
 <template>
-  <div>
-    <router-link class="block w-min ml-auto mb-5" to="/create">Add</router-link>
-    <table class="table-auto">
-      <tr class="bg-gray-400 text-white">
+  <router-link
+    class="
+      block
+      w-min
+      ml-auto
+      mr-3
+      mb-5
+      text-green-700
+      opacity-50
+      hover:opacity-100
+      duration-200
+    "
+    to="/create"
+    >Add</router-link
+  >
+  <table class="border-collapse w-full">
+    <thead>
+      <tr>
         <th>Last name</th>
         <th>Name</th>
         <th>Middle name</th>
         <th>Birth date</th>
-        <th class="description">Description</th>
+        <th>Description</th>
         <th>Actions</th>
       </tr>
+    </thead>
+    <tbody>
       <EmployeeRow
         v-for="employee in employees"
         :key="employee.id"
         :employee="employee"
-        class="bg-gray-100 even:bg-gray-200"
       />
-    </table>
-  </div>
+    </tbody>
+  </table>
 </template>
 
 <script>
-import EmployeeRow from "./EmployeeRow.vue";
+import EmployeeRow from "./components/EmployeeRow.vue";
 import { mapState } from "vuex";
 
 export default {
@@ -38,10 +53,6 @@ export default {
 
 <style lang="scss" scoped>
 th {
-  @apply font-light whitespace-nowrap px-10 py-5;
-}
-
-.description {
-  @apply px-20;
+  @apply p-3 font-bold uppercase bg-gray-200 text-gray-600 border border-gray-300 hidden lg:table-cell;
 }
 </style>

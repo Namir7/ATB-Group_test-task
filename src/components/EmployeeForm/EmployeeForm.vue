@@ -1,20 +1,57 @@
 <template>
-  <form @submit.prevent="formCallback">
-    <button class="reload" v-if="!isEditMode" @click="clear">
-      <img class="reload-img" src="../../assets/reload.svg" alt="reload" />
-    </button>
-    <NameInput v-model="fullName" :isValid="isNameValid" />
-    <BirthDateInput v-model="birthDate" :isValid="isBirthDateValid" />
-    <DescriptionInput
-      v-model="description"
-      :descriptionMaxLenght="descriptionMaxLenght"
-    />
-    <router-link class="cancel" to="/">Cancel</router-link>
-    <input
-      type="submit"
-      :value="$props.isEditMode ? 'edit' : 'create'"
-      :disabled="!isFormValid"
-    />
+  <form @submit.prevent="formHandler" @keypress.enter.prevent="formHandler">
+    <div class="grid grid-cols-2 gap-4 max-w-xl m-auto pt-10 relative">
+      <Reload tabindex="-1" :isEditMode="isEditMode" @clear="clear" />
+
+      <NameInput v-model="fullName" :isValid="isNameValid" />
+
+      <BirthDateInput v-model="birthDate" :isValid="isBirthDateValid" />
+
+      <DescriptionInput
+        v-model="description"
+        :descriptionMaxLenght="descriptionMaxLenght"
+      />
+
+      <div class="col-span-2 text-center flex">
+        <router-link
+          class="
+            py-3
+            px-6
+            bg-red-500
+            text-white
+            font-bold
+            w-full
+            sm:w-32
+            mr-auto
+            opacity-80
+            hover:opacity-100
+          "
+          tabindex="-1"
+          to="/"
+          >Cancel</router-link
+        >
+        <input
+          type="submit"
+          tabindex="4"
+          :value="isEditMode ? 'edit' : 'create'"
+          :disabled="!isFormValid"
+          class="
+            py-3
+            px-6
+            bg-green-500
+            disabled:bg-gray-500
+            text-white
+            font-bold
+            w-full
+            sm:w-32
+            cursor-pointer
+            opacity-80
+            disabled:opacity-100
+            hover:opacity-100
+          "
+        />
+      </div>
+    </div>
   </form>
 </template>
 
@@ -22,12 +59,14 @@
 import NameInput from "./components/NameInput.vue";
 import BirthDateInput from "./components/BirthDateInput.vue";
 import DescriptionInput from "./components/DescriptionInput.vue";
+import Reload from "./components/Reload.vue";
 
 import { mapGetters, mapActions } from "vuex";
 
 export default {
   name: "EmployeeForm",
-  components: { NameInput, BirthDateInput, DescriptionInput },
+  components: { NameInput, BirthDateInput, DescriptionInput, Reload },
+  emits: ["goToMainPage"],
   props: ["isEditMode"],
   inject: ["uuidv4"],
 
@@ -42,7 +81,7 @@ export default {
       employee.middleName ? ` ${employee.middleName}` : ""
     }`;
     this.birthDate = employee.birthDate;
-    this.description = employee.description;
+    this.description = employee.description ? employee.description : "";
   },
 
   mounted() {
@@ -55,6 +94,8 @@ export default {
   updated() {
     if (!this.isEditMode) this.saveNewEmployeeDataInLocalStorage();
   },
+
+  beforeUnmount() {},
 
   data() {
     return {
@@ -81,7 +122,7 @@ export default {
         lastName,
         middleName,
         birthDate: this.birthDate,
-        description: this.description,
+        description: this.description === "" ? null : this.description,
       };
     },
 
@@ -94,17 +135,25 @@ export default {
     },
 
     isFormValid() {
-      return this.isNameValid && this.isBirthDateValid;
+      const isInputsValid = this.isNameValid && this.isBirthDateValid;
+
+      return !this.isRequiredInputsEmpty && isInputsValid;
+    },
+
+    isRequiredInputsEmpty() {
+      return this.fullName.length === 0 || this.birthDate.length === 0;
     },
 
     ...mapGetters(["getEmployeeByID"]),
   },
 
   methods: {
-    formCallback() {
+    formHandler() {
+      if (!this.isFormValid) return;
+
       if (this.$props.isEditMode) {
         this.editEmployee({ editedEmployee: this.employee });
-        this.goToMainPage();
+        this.$emit("goToMainPage");
       } else {
         this.addEmployee({ employee: this.employee });
         this.clear();
@@ -117,10 +166,6 @@ export default {
       this.description = "";
 
       localStorage.clear();
-    },
-
-    goToMainPage() {
-      this.$router.push("/");
     },
 
     getFirstName(fullName) {
@@ -161,6 +206,7 @@ export default {
     },
 
     checkIfNameInputValid(value) {
+      if (value.length === 0) return true;
       const regex =
         /^([А-ЯA-Z]|[А-ЯA-Z][\x27а-яa-z]{1,}|[А-ЯA-Z][\x27а-яa-z]{1,}([А-ЯA-Z][\x27а-яa-z]{1,}|(оглы)|(кызы)))\040[А-ЯA-Z][\x27а-яa-z]{1,}(\040[А-ЯA-Z][\x27а-яa-z]{1,})?$/;
 
@@ -168,12 +214,14 @@ export default {
     },
 
     checkIfBirthDateInputValid(value) {
+      if (value.length === 0) return true;
+
+      // check if year is incorrect
+      const year = parseInt(value);
+      if (year < 1950) return false;
+
       const regex = /^\d{4}-([0]\d|1[0-2])-([0-2]\d|3[01])$/;
       return regex.test(value);
-    },
-
-    checkIfDescriptionInputValid(value) {
-      console.log(value);
     },
 
     ...mapActions(["addEmployee", "editEmployee"]),
@@ -181,36 +229,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-form {
-  width: fit-content;
-  margin: 0 auto;
-  .reload {
-    background-color: white;
-    border: none;
-
-    &-img {
-      display: block;
-
-      width: 25px;
-      height: 25px;
-    }
-  }
-
-  input[type="submit"] {
-    display: block;
-    margin: 0 auto;
-  }
-
-  .cancel {
-    display: block;
-    width: 50px;
-    height: 30px;
-
-    background-color: red;
-
-    color: white;
-    text-decoration: none;
-  }
-}
-</style>
+<style lang="scss" scoped></style>

@@ -1,11 +1,13 @@
 <template>
-  <div class="form-control">
-    <label for="birthDate">Birthday:</label>
+  <div class="col-span-2 lg:col-span-1">
     <input
       v-model="value"
+      placeholder="1980-07-15"
       id="birthDate"
       type="text"
-      :class="{ irrelevant: value !== '' && !$props.isValid }"
+      tabindex="2"
+      class="border-solid border-gray-400 border-2 p-3 md:text-xl w-full"
+      :class="isValid ? '' : 'border-2 border-red-700'"
     />
   </div>
 </template>
@@ -27,18 +29,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-input {
-  width: 150px;
-
-  &.irrelevant {
-    background-color: pink;
-  }
-}
-.form-control {
-  display: flex;
-  justify-content: space-between;
-  width: 300px;
-  margin-bottom: 25px;
-}
-</style>
+<style lang="scss" scoped></style>

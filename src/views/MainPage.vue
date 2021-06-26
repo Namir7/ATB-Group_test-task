@@ -1,16 +1,20 @@
 <template>
-  <div class="home">
-    <h1 class="hidden">Employees management main page</h1>
-    <h2 class="w-min my-10 mx-auto">Employees</h2>
-    <EmployeesTable />
-  </div>
+  <main class="pt-10">
+    <div class="container mx-auto">
+      <h1 class="hidden">Employees management main page</h1>
+      <h2 class="text-3xl mb-6 text-center">Employees</h2>
+      <EmployeesTable />
+      <CancelDelete />
+    </div>
+  </main>
 </template>
 
 <script>
-import EmployeesTable from "../components/EmployeesTable.vue";
+import EmployeesTable from "../components/EmployeesTable/EmployeesTable.vue";
+import CancelDelete from "../components/CancelDelete.vue";
 
 export default {
-  components: { EmployeesTable },
+  components: { EmployeesTable, CancelDelete },
 };
 </script>
 
