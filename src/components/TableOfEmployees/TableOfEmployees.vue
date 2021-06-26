@@ -40,7 +40,7 @@ import EmployeeRow from "./components/EmployeeRow.vue";
 import { mapState } from "vuex";
 
 export default {
-  name: "EmployeesTable",
+  name: "TableOfEmployees",
   components: {
     EmployeeRow,
   },

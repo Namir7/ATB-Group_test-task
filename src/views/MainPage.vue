@@ -3,18 +3,18 @@
     <div class="container mx-auto">
       <h1 class="hidden">Employees management main page</h1>
       <h2 class="text-3xl mb-6 text-center">Employees</h2>
-      <EmployeesTable />
-      <CancelDelete />
+      <TableOfEmployees />
+      <CancelDeletionPopup />
     </div>
   </main>
 </template>
 
 <script>
-import EmployeesTable from "../components/EmployeesTable/EmployeesTable.vue";
-import CancelDelete from "../components/CancelDelete.vue";
+import TableOfEmployees from "../components/TableOfEmployees/TableOfEmployees.vue";
+import CancelDeletionPopup from "../components/CancelDeletionPopup.vue";
 
 export default {
-  components: { EmployeesTable, CancelDelete },
+  components: { TableOfEmployees, CancelDeletionPopup },
 };
 </script>
 

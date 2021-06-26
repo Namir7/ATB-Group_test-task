@@ -19,7 +19,7 @@
 
 <script>
 export default {
-  name: "Reload",
+  name: "ReloadBtn",
   emits: ["clear"],
   props: ["isEditMode"],
 };
