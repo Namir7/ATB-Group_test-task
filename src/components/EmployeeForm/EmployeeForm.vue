@@ -1,7 +1,7 @@
 <template>
   <form @submit.prevent="formHandler" @keypress.enter.prevent="formHandler">
     <div class="grid grid-cols-2 gap-4 max-w-xl m-auto pt-10 relative">
-      <Reload tabindex="-1" :isEditMode="isEditMode" @clear="clear" />
+      <ReloadBtn tabindex="-1" :isEditMode="isEditMode" @clear="clear" />
 
       <NameInput v-model="fullName" :isValid="isNameValid" />
 
@@ -13,42 +13,11 @@
       />
 
       <div class="col-span-2 text-center flex">
-        <router-link
-          class="
-            py-3
-            px-6
-            bg-red-500
-            text-white
-            font-bold
-            w-full
-            sm:w-32
-            mr-auto
-            opacity-80
-            hover:opacity-100
-          "
-          tabindex="-1"
-          to="/"
-          >Cancel</router-link
-        >
-        <input
-          type="submit"
+        <CancelBtn />
+        <SubmitBtn
           tabindex="4"
-          :value="isEditMode ? 'edit' : 'create'"
-          :disabled="!isFormValid"
-          class="
-            py-3
-            px-6
-            bg-green-500
-            disabled:bg-gray-500
-            text-white
-            font-bold
-            w-full
-            sm:w-32
-            cursor-pointer
-            opacity-80
-            disabled:opacity-100
-            hover:opacity-100
-          "
+          :isEditMode="isEditMode"
+          :isFormValid="isFormValid"
         />
       </div>
     </div>
@@ -59,16 +28,25 @@
 import NameInput from "./components/NameInput.vue";
 import BirthDateInput from "./components/BirthDateInput.vue";
 import DescriptionInput from "./components/DescriptionInput.vue";
-import Reload from "./components/Reload.vue";
+import ReloadBtn from "./components/ReloadBtn.vue";
+import CancelBtn from "./components/CancelBtn.vue";
+import SubmitBtn from "./components/SubmitBtn.vue";
 
 import { mapGetters, mapActions } from "vuex";
+import { v4 as uuidv4 } from "uuid";
 
 export default {
   name: "EmployeeForm",
-  components: { NameInput, BirthDateInput, DescriptionInput, Reload },
+  components: {
+    NameInput,
+    BirthDateInput,
+    DescriptionInput,
+    ReloadBtn,
+    CancelBtn,
+    SubmitBtn,
+  },
   emits: ["goToMainPage"],
   props: ["isEditMode"],
-  inject: ["uuidv4"],
 
   created() {
     if (!this.isEditMode) return;
@@ -95,11 +73,9 @@ export default {
     if (!this.isEditMode) this.saveNewEmployeeDataInLocalStorage();
   },
 
-  beforeUnmount() {},
-
   data() {
     return {
-      id: this.uuidv4(),
+      id: uuidv4(),
 
       fullName: "",
       // format: "lastName firstName [middleName]"
