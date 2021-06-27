@@ -1,9 +1,8 @@
-# ATB-Group_test-task
+# test task
 
-[Try that](https://obscure-plateau-34485.herokuapp.com)
+[![picture](https://i.ibb.co/LCD9Kxd/2021-06-27-06-50-09.png "App")](https://obscure-plateau-34485.herokuapp.com)
 
-https://ibb.co/rZK59x2
-[здесь должно быть изображение](https://ibb.co/rZK59x2)
+[Link](https://obscure-plateau-34485.herokuapp.com)
 
 
 ## Project setup
