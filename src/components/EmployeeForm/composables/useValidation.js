@@ -1,14 +1,14 @@
 import { computed } from "vue";
 
-export default function useValidation(fullName, birthDate) {
-  const isNameValid = computed(() => checkIfNameInputValid(fullName.value));
+export default function useValidation(formData) {
+  const isNameValid = computed(() => checkIfNameInputValid(formData.fullName));
 
   const isBirthDateValid = computed(() =>
-    checkIfBirthDateInputValid(birthDate.value)
+    checkIfBirthDateInputValid(formData.birthDate)
   );
 
   const isRequiredInputsEmpty = computed(() => {
-    return fullName.value.length === 0 || birthDate.value.length === 0;
+    return formData.fullName.length === 0 || formData.birthDate.length === 0;
   });
 
   const isFormValid = computed(() => {
@@ -29,7 +29,7 @@ export default function useValidation(fullName, birthDate) {
     if (value.length === 0) return true;
 
     const year = parseInt(value);
-    if (year < 1950) return false;
+    if (year < 1900) return false;
 
     const regex = /^\d{4}-([0]\d|1[0-2])-([0-2]\d|3[01])$/;
     return regex.test(value);

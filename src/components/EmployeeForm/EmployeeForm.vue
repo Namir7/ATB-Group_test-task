@@ -1,14 +1,17 @@
 <template>
   <form @submit.prevent="formHandler" @keypress.enter.prevent="formHandler">
     <div class="grid grid-cols-2 gap-4 max-w-xl m-auto pt-10 relative">
-      <ReloadBtn tabindex="-1" :isEditMode="isEditMode" @clear="clear" />
+      <ReloadBtn tabindex="-1" :isEditMode="$attrs.isEditMode" @clear="clear" />
 
-      <NameInput v-model="fullName" :isValid="isNameValid" />
+      <NameInput v-model="formData.fullName" :isValid="isNameValid" />
 
-      <BirthDateInput v-model="birthDate" :isValid="isBirthDateValid" />
+      <BirthDateInput
+        v-model="formData.birthDate"
+        :isValid="isBirthDateValid"
+      />
 
       <DescriptionInput
-        v-model="description"
+        v-model="formData.description"
         :descriptionMaxLenght="descriptionMaxLenght"
       />
 
@@ -16,7 +19,7 @@
         <CancelBtn />
         <SubmitBtn
           tabindex="4"
-          :isEditMode="isEditMode"
+          :isEditMode="$attrs.isEditMode"
           :isFormValid="isFormValid"
         />
       </div>
@@ -37,8 +40,8 @@ import useValidation from "./composables/useValidation";
 import useLocalStorage from "./composables/useLocalStorage";
 import convertFormDataToEmployee from "./composables/convertFormDataToEmployee";
 
-import { toRef } from "vue";
-import { mapActions } from "vuex";
+import { useStore, mapActions } from "vuex";
+import { useRoute } from "vue-router";
 
 export default {
   name: "EmployeeForm",
@@ -52,39 +55,28 @@ export default {
   },
 
   emits: ["goToMainPage"],
-  props: ["isEditMode"],
 
-  setup(props) {
-    const isEditMode = toRef(props, "isEditMode");
+  setup(props, { attrs }) {
+    const store = useStore();
+    const route = useRoute();
+    const isEditMode = attrs.isEditMode;
 
-    const { id, fullName, birthDate, description } =
-      setInitalFormData(isEditMode);
+    const { formData } = setInitalFormData(store, route, isEditMode);
 
-    const { isNameValid, isBirthDateValid, isFormValid } = useValidation(
-      fullName,
-      birthDate
-    );
+    const { employee } = convertFormDataToEmployee(formData);
 
-    useLocalStorage(isEditMode, id, fullName, birthDate, description);
+    const { isNameValid, isBirthDateValid, isFormValid } =
+      useValidation(formData);
 
-    const { employee } = convertFormDataToEmployee(
-      id,
-      fullName,
-      birthDate,
-      description
-    );
+    useLocalStorage(isEditMode, formData);
 
     return {
-      id,
-      fullName,
-      birthDate,
-      description,
+      formData,
+      employee,
 
       isNameValid,
       isBirthDateValid,
       isFormValid,
-
-      employee,
     };
   },
 
@@ -98,7 +90,7 @@ export default {
     formHandler() {
       if (!this.isFormValid) return;
 
-      if (this.$props.isEditMode) {
+      if (this.$attrs.isEditMode) {
         this.editEmployee({ editedEmployee: this.employee });
         this.$emit("goToMainPage");
       } else {
@@ -108,9 +100,9 @@ export default {
     },
 
     clear() {
-      this.fullName = "";
-      this.birthDate = "";
-      this.description = "";
+      this.formData.fullName = "";
+      this.formData.birthDate = "";
+      this.formData.description = "";
 
       localStorage.clear();
     },

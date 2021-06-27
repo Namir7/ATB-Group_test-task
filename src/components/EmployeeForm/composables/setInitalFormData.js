@@ -1,15 +1,16 @@
-import { computed, ref } from "vue";
-import { useStore } from "vuex";
-import { useRoute } from "vue-router";
+import { computed, reactive } from "vue";
 
 import { v4 as uuidv4 } from "uuid";
 
-export default function setInitalFormData(isEditMode) {
-  const store = useStore();
-  const route = useRoute();
-  let initialFormData = null;
+export default function setInitalFormData(store, route, isEditMode) {
+  let initialFormData = {
+    id: uuidv4(),
+    fullName: "",
+    birthDate: "",
+    description: "",
+  };
 
-  if (isEditMode.value) {
+  if (isEditMode) {
     const id = route.params.id;
     const employee = computed(() => store.getters.getEmployeeByID(id));
 
@@ -23,19 +24,9 @@ export default function setInitalFormData(isEditMode) {
       : "";
 
     initialFormData = { id, fullName, birthDate, description };
-  } else {
-    initialFormData = {
-      id: uuidv4(),
-      fullName: "",
-      birthDate: "",
-      description: "",
-    };
   }
 
   return {
-    id: ref(initialFormData.id),
-    fullName: ref(initialFormData.fullName),
-    birthDate: ref(initialFormData.birthDate),
-    description: ref(initialFormData.description),
+    formData: reactive(initialFormData),
   };
 }

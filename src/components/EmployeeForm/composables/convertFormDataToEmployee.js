@@ -1,23 +1,18 @@
 import { computed } from "vue";
 
-export default function convertFormDataToEmployee(
-  id,
-  fullName,
-  birthDate,
-  description
-) {
+export default function convertFormDataToEmployee(formData) {
   const employee = computed(() => {
-    const firstName = getFirstName(fullName.value);
-    const lastName = getLastName(fullName.value);
-    const middleName = getMiddleName(fullName.value);
+    const firstName = getFirstName(formData.fullName);
+    const lastName = getLastName(formData.fullName);
+    const middleName = getMiddleName(formData.fullName);
 
     return {
-      id: id.value,
+      id: formData.id,
       firstName,
       lastName,
       middleName,
-      birthDate: birthDate.value,
-      description: description.value === "" ? null : description.value,
+      birthDate: formData.birthDate,
+      description: formData.description === "" ? null : formData.description,
     };
   });
 

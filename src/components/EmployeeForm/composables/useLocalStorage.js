@@ -1,30 +1,19 @@
 import { onMounted, onUpdated } from "vue";
 
-export default function useLocalStorage(
-  isEditMode,
-  id,
-  fullName,
-  birthDate,
-  description
-) {
+export default function useLocalStorage(isEditMode, formData) {
   onMounted(() => {
     const hasSavedNewEmployeeData = localStorage.getItem("newEmployeeData");
 
-    if (!isEditMode.value && hasSavedNewEmployeeData)
+    if (!isEditMode && hasSavedNewEmployeeData)
       retrieveNewEmployeeDataFromLocalStorage();
   });
 
   onUpdated(() => {
-    if (!isEditMode.value) saveNewEmployeeDataInLocalStorage();
+    if (!isEditMode) saveNewEmployeeDataInLocalStorage();
   });
 
   function saveNewEmployeeDataInLocalStorage() {
-    const newEmployeeData = {
-      id: id.value,
-      fullName: fullName.value,
-      birthDate: birthDate.value,
-      description: description.value,
-    };
+    const newEmployeeData = { ...formData };
 
     const parsed = JSON.stringify(newEmployeeData);
 
@@ -35,9 +24,9 @@ export default function useLocalStorage(
     const stringified = localStorage.getItem("newEmployeeData");
     const newEmployee = JSON.parse(stringified);
 
-    id.value = newEmployee.id;
-    fullName.value = newEmployee.fullName;
-    birthDate.value = newEmployee.birthDate;
-    description.value = newEmployee.description;
+    formData.id = newEmployee.id;
+    formData.fullName = newEmployee.fullName;
+    formData.birthDate = newEmployee.birthDate;
+    formData.description = newEmployee.description;
   }
 }
