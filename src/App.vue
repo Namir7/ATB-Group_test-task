@@ -1,18 +1,19 @@
 <template>
   <router-view v-slot="{ Component }">
-    <transition name="fade" mode="out-in">
+    <fade-transition>
       <component :is="Component" />
-    </transition>
+    </fade-transition>
   </router-view>
 </template>
 
-<style lang="scss">
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.5s ease;
-}
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-}
-</style>
+<script>
+import FadeTransition from "./components/FadeTransition.vue";
+
+export default {
+  components: {
+    FadeTransition,
+  },
+};
+</script>
+
+<style lang="scss"></style>

@@ -1,5 +1,5 @@
 <template>
-  <transition name="fade" mode="out-in">
+  <fade-transition>
     <div
       v-if="deletedEmployee"
       class="
@@ -35,14 +35,19 @@
         Restore
       </button>
     </div>
-  </transition>
+  </fade-transition>
 </template>
 
 <script>
+import FadeTransition from "./FadeTransition.vue";
+
 import { mapState, mapActions } from "vuex";
 
 export default {
   name: "CancelDeletionPopup",
+  components: {
+    FadeTransition,
+  },
   created() {
     if (this.deletedEmployee) this.clearDeleted();
   },
@@ -60,13 +65,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.5s ease;
-}
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-}
-</style>
+<style lang="scss" scoped></style>
