@@ -40,8 +40,10 @@ import useValidation from "./composables/useValidation";
 import useLocalStorage from "./composables/useLocalStorage";
 import convertFormDataToEmployee from "./composables/convertFormDataToEmployee";
 
+
 import { useStore, mapActions } from "vuex";
 import { useRoute } from "vue-router";
+
 
 export default {
   name: "EmployeeForm",
@@ -55,6 +57,7 @@ export default {
   },
 
   emits: ["goToMainPage"],
+
 
   setup(props, { attrs }) {
     const store = useStore();
@@ -77,6 +80,7 @@ export default {
       isNameValid,
       isBirthDateValid,
       isFormValid,
+
     };
   },
 

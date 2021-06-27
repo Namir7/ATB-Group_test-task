@@ -9,6 +9,7 @@ export default function useValidation(formData) {
 
   const isRequiredInputsEmpty = computed(() => {
     return formData.fullName.length === 0 || formData.birthDate.length === 0;
+
   });
 
   const isFormValid = computed(() => {
